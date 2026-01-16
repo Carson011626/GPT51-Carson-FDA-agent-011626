@@ -2,6 +2,13 @@
 
 This guide shows a simple, beginner-friendly way to run the Streamlit app from this repository on another computer (macOS / Linux / Windows).
 
+/usr/local/bin/python3.11 -m streamlit run /Users/freesia/Downloads/project/2-Carson2-011626/app.py --server.port 8501 --server.headless true
+
+pkill -f streamlit || true
+
+/usr/local/bin/python3.11 -m streamlit run /Users/freesia/Downloads/project/2-Carson2-011626/app.py --server.port 8501 --server.headless true
+
+
 ## Prerequisites
 - Git (to clone the repo) or a copy of the project folder.
 - Python 3.11 (recommended). The app was tested with Python 3.11.
