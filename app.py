@@ -558,11 +558,14 @@ def call_xai(model: str, system_prompt: str, user_input: str,
     sys_text = (BASE_SYSTEM_PROMPT + "\n\n" + system_prompt) if system_prompt else BASE_SYSTEM_PROMPT
     chat.append(xai_system(sys_text or "You are Grok, a highly intelligent, helpful AI assistant."))
     chat.append(xai_user(user_input))
-    response = chat.sample(
-        max_output_tokens=max_tokens,
-        temperature=temperature,
-    )
-    return response.content
+    # Some `xai_sdk` versions reject token-limit kwargs. Call without any max-token argument.
+    try:
+        response = chat.sample(temperature=temperature)
+    except TypeError:
+        # Fallback to calling with no kwargs if the SDK signature differs
+        response = chat.sample()
+
+    return getattr(response, "content", response)
 
 
 def run_agent(agent: AgentConfig, input_text: str) -> str:
